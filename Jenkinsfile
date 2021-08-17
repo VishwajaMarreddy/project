@@ -12,6 +12,11 @@ pipeline {
                 sh 'mvn test'
             }
         }
+	stage('sonar') {
+           steps {
+              sh 'mvn sonar:sonar -Dsonar.host.url=http://${env.BUILD_URL.split('/')[2].split(':')[0]}:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408'
+           }
+        }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
