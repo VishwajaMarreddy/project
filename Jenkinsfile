@@ -16,10 +16,10 @@ pipeline {
            steps {
 		echo '${env.BUILD_URL.split('/')[2]}'
         }
+	}
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
             }
         }
-    }
 }
