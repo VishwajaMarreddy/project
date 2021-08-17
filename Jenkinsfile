@@ -14,7 +14,7 @@ pipeline {
         }
 	stage('sonar') {
            steps {
-		sh " echo '${env.BUILD_URL.split('/')[2]}' "
+		sh " echo '${env.BUILD_URL.split('/')[2].split(':')[0]}' "
         }
 	}
         stage('Deploy') {
