@@ -45,11 +45,6 @@ pipeline {
     }
   }
 }
-	stage('nexus'){
-	  steps{
-		sh 'mvn deploy'
-		}
-	}
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
