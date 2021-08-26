@@ -15,7 +15,7 @@ pipeline {
 	stage('sonar') {
            steps {
 	sh """
-//	mvn sonar:sonar -Dsonar.host.url=http://54.227.4.142:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408
+	mvn sonar:sonar -Dsonar.host.url=http://54.227.4.142:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408
 	"""
         }
 	}
