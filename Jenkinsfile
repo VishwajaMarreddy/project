@@ -33,13 +33,14 @@ pipeline {
     script {
       catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
         withCredentials([usernamePassword(credentialsId: 'gitcredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-            def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+            def encodedPassword = URLEncoder.encode('$GIT_PASSWORD','UTF-8')
+	    sh " echo '$GIT_PASSWORD'"
             sh "git config --global  user.email rvishwaja@gmail.com"
             sh "git config --global user.name VishwajaMarreddy"
 	    sh "git checkout master"
             sh "git add ."
             sh "git commit -m 'Triggered Build: ${env.BUILD_NUMBER}'"
-            sh "git push https://${GIT_USERNAME}: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@github.com/${GIT_USERNAME}/project.git"
+            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}/${GIT_USERNAME}/project.git"
         }
       }
     }
