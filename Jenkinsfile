@@ -25,7 +25,7 @@ pipeline {
               sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
 	      sh "mvn versions:commit"
 	      sh "git add ."
-	      sh "git commit -m "updated version"
+	      sh "git commit -m 'updated version'"
 
             }
         }
