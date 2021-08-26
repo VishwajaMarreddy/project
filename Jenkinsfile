@@ -19,7 +19,7 @@ pipeline {
 	"""
         }
 	}
-	      stage('Change pom file') {
+	stage('Change pom file') {
             steps {
 	      sh "git checkout master"
               sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
@@ -29,6 +29,9 @@ pipeline {
 
             }
         }
+	stage('nexus'){
+		sh 'mvn deploy'
+	}
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
