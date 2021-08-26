@@ -39,7 +39,7 @@ pipeline {
 	    sh "git checkout master"
             sh "git add ."
             sh "git commit -m 'Triggered Build: ${env.BUILD_NUMBER}'"
-            sh "git push https://${GIT_USERNAME}:${encodedPassword}@github.com/${GIT_USERNAME}/project.git"
+            sh "git push https://${GIT_USERNAME}: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@github.com/${GIT_USERNAME}/project.git"
         }
       }
     }
