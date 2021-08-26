@@ -33,7 +33,7 @@ pipeline {
     script {
       catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
         withCredentials([usernamePassword(credentialsId: 'gitcredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-            def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+            def encodedPassword = URLEncoder.encode("Vivansh@2408",'UTF-8')
             sh "git config --global  user.email rvishwaja@gmail.com"
             sh "git config --global user.name VishwajaMarreddy"
 	    sh "git checkout master"
