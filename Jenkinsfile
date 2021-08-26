@@ -24,13 +24,26 @@ pipeline {
 	      sh "git checkout master"
               sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
 	      sh "mvn versions:commit"
-	      sh "git config --global  user.email rvishwaja@gmail.com"
-            sh "git config user.name VishwajaMarreddy"
-	      sh "git add ."
-	      sh "git commit -m 'updated version'"
+	      
 
             }
         }
+	stage('Update GIT') {
+  steps {
+    script {
+      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        withCredentials([usernamePassword(credentialsId: 'gitcredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+            def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+            sh "git config user.email rvishwaja@gmail.com"
+            sh "git config user.name VishwajaMarreddy"
+            sh "git add ."
+            sh "git commit -m 'Triggered Build: ${env.BUILD_NUMBER}'"
+            sh "git push https://${GIT_USERNAME}:${encodedPassword}@github.com/${GIT_USERNAME}/project.git"
+        }
+      }
+    }
+  }
+}
 	stage('nexus'){
 	  steps{
 		sh 'mvn deploy'
