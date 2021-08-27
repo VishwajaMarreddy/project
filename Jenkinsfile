@@ -19,7 +19,7 @@ pipeline {
 	      sh "mvn versions:commit"
 	      sh "git add ."
 	      sh 'git commit -m "added pom"'
-	      sh "git push "
+	      sh "git push https://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@github.com/VishwajaMarreddy/project.git"
 
             }
         }
