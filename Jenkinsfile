@@ -20,7 +20,7 @@ pipeline {
 	      sh "git add ."
 	      sh 'git commit -m "added pom"'
 	      sh "git config --global push.default simple"
-	      sh "git push https://VishwajaMarreddy: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@github.com/VishwajaMarreddy/project.git"
+	      sh "git push --all https://github.com/VishwajaMarreddy/project.git"
 
             }
         }
