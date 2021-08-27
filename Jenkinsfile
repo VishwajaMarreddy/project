@@ -12,40 +12,17 @@ pipeline {
                 sh 'mvn test'
             }
         }
-	stage('sonar') {
-           steps {
-	sh """
-	mvn sonar:sonar -Dsonar.host.url=http://54.227.4.142:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408
-	"""
-        }
-	}
 	stage('Change pom file') {
             steps {
 	      sh "git checkout master"
               sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
 	      sh "mvn versions:commit"
-	      
+	      sh "git add ."
+	      sh 'git commit -m "added pom"'
+	      sh "git push "
 
             }
         }
-	stage('Update GIT') {
-  steps {
-    script {
-      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-        withCredentials([usernamePassword(credentialsId: 'gitcredentials', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-            def encodedPassword = URLEncoder.encode('$GIT_PASSWORD','UTF-8')
-	    sh " echo '$GIT_PASSWORD'"
-            sh "git config --global  user.email rvishwaja@gmail.com"
-            sh "git config --global user.name VishwajaMarreddy"
-	    sh "git checkout master"
-            sh "git add ."
-            sh "git commit -m 'Triggered Build: ${env.BUILD_NUMBER}'"
-            sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}/${GIT_USERNAME}/project.git"
-        }
-      }
-    }
-  }
-}
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
