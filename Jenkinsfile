@@ -19,7 +19,8 @@ pipeline {
 	      sh "mvn versions:commit"
 	      sh "git add ."
 	      sh 'git commit -m "added pom"'
-	      sh "git push https://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@github.com/VishwajaMarreddy/project.git"
+	      sh "git config --global push.default simple"
+	      sh "git push https://VishwajaMarreddy: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@github.com/VishwajaMarreddy/project.git"
 
             }
         }
