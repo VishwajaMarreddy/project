@@ -34,7 +34,8 @@ pipeline {
 	}
         stage('Deploy') {
             steps {
-                sh "http://52.90.155.192:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${DnewVersion}/WebAppCal-${DnewVersion}.war"
+                sh "wget --user admin --password admin123 http://52.90.155.192:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${DnewVersion}/WebAppCal-${DnewVersion}.war"
+		sh "sudo cp WebAppCal-${DnewVersion}.war  /home/centos/apache-tomcat-7.0.94/webapps/"
             }
         }
 }
