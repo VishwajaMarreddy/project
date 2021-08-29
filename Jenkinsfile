@@ -12,21 +12,29 @@ pipeline {
                 sh 'mvn test'
             }
         }
+	stage('sonar') {
+        steps {
+        sh """
+        mvn sonar:sonar -Dsonar.host.url=http://52.90.155.192:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408
+        """
+        }
+        }
 	stage('Change pom file') {
             steps {
 	      sh "git checkout master"
               sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
 	      sh "mvn versions:commit"
-	      sh "git add ."
-	      sh 'git commit -m "added pom"'
-	      sh "git config --global push.default simple"
-	      sh "git push --all https://github.com/VishwajaMarreddy/project.git"
-
             }
         }
+	stage('Nexus')
+	{
+	   steps{
+		sh "mvn deploy"
+	}
+	}
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                sh "http://52.90.155.192:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${DnewVersion}/WebAppCal-${DnewVersion}.war"
             }
         }
 }
