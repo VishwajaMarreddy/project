@@ -34,8 +34,8 @@ pipeline {
 	}
         stage('Deploy') {
             steps {
-                sh "wget --user admin --password admin123 http://54.163.222.124:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${DnewVersion}/WebAppCal-${DnewVersion}.war"
-		sh "sudo cp WebAppCal-${DnewVersion}.war  /home/centos/apache-tomcat-7.0.94/webapps/"
+                sh "wget --user admin --password admin123 http://54.163.222.124:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${newVersion}/WebAppCal-${newVersion}.war"
+		sh "sudo cp WebAppCal-${newVersion}.war  /home/centos/apache-tomcat-7.0.94/webapps/"
             }
         }
 }
