@@ -5,9 +5,9 @@ pipeline {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     //IMAGE = readMavenPom().getArtifactId()
     //sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
-  sh '''
+  sh "
   version = ${project.version}
-    '''
+    "
     }
 
 
