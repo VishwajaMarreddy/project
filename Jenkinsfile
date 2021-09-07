@@ -1,5 +1,12 @@
 pipeline {
     agent any
+    
+    environment {
+    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+    //IMAGE = readMavenPom().getArtifactId()
+    version = sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
+    }
+
 
     stages {
         stage('Build') {
@@ -19,12 +26,6 @@ pipeline {
         """
         }
         }
-	stage('Change pom file') {
-            steps {
-              sh "mvn build-helper:parse-version versions:set -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion}"
-	      sh "mvn versions:commit"
-            }
-        }
 	stage('Nexus')
 	{
 	   steps{
@@ -33,7 +34,7 @@ pipeline {
 	}
         stage('Deploy') {
             steps {
-                sh "wget --user admin --password admin123 http://54.163.222.124:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${newVersion}/WebAppCal-${newVersion}.war"
+                sh "wget --user admin --password admin123 http://54.163.222.124:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${version}/WebAppCal-${version}.war"
 		sh "sudo cp WebAppCal-${newVersion}.war  /home/centos/apache-tomcat-7.0.94/webapps/"
             }
         }
