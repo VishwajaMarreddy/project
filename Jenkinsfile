@@ -4,9 +4,7 @@ pipeline {
     environment {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     //IMAGE = readMavenPom().getArtifactId()
-  sh """
-  version = ${project.version}
-    """
+  version = sh "{project.version}"
     }
 
 
