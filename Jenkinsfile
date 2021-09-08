@@ -4,7 +4,8 @@ pipeline {
     environment {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     //IMAGE = readMavenPom().getArtifactId()
-  version = readMavenPom().getVersion()
+    //version = readMavenPom().getVersion()
+   def version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
     }
 
 
@@ -22,7 +23,7 @@ pipeline {
 	stage('sonar') {
         steps {
         sh """
-        mvn sonar:sonar -Dsonar.host.url=http://54.163.222.124:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408
+        mvn sonar:sonar -Dsonar.host.url=http://3.90.189.56:9000 -Dsonar.login=2fecc47f1f0955e88f4c509042373a99e7779408
         """
         }
         }
@@ -35,7 +36,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh "wget --user admin --password admin123 http://54.163.222.124:8081/nexus/service/local/repositories/releases/content/com/web/cal/WebAppCal/${version}/WebAppCal-${version}.war"
-		sh "sudo cp WebAppCal-${newVersion}.war  /home/centos/apache-tomcat-7.0.94/webapps/"
+		sh "sudo cp WebAppCal-${version}.war  /home/centos/apache-tomcat-7.0.94/webapps/"
             }
         }
 }
